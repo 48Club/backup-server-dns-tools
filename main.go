@@ -16,7 +16,7 @@ var (
 func main() {
 	srv = &dns.Server{Addr: ":53", Net: "udp"}
 	srv.Handler = dns.HandlerFunc(func(w dns.ResponseWriter, r *dns.Msg) {
-		if r.Question[0].Name != config.Server {
+		if dns.Fqdn(r.Question[0].Name) != dns.Fqdn(config.Server) {
 			w.Close()
 			return
 		}
@@ -33,7 +33,7 @@ func main() {
 					ip = config.Backup
 				}
 				m.Answer = append(m.Answer, &dns.A{
-					Hdr: dns.RR_Header{Name: r.Question[0].Name, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 3},
+					Hdr: dns.RR_Header{Name: r.Question[0].Name, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 60},
 					A:   net.ParseIP(ip),
 				})
 			default:
