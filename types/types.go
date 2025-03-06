@@ -8,9 +8,10 @@ type Server struct {
 }
 
 type Config struct {
-	Server string `json:"server"`
-	Master Server `json:"master"`
-	Backup string `json:"backup"`
+	Server      string   `json:"server"`
+	Master      Server   `json:"master"`
+	Backup      string   `json:"backup"`
+	RecursiveNS []string `json:"recursive-ns"`
 }
 
 type RPC struct {
